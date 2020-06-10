@@ -1,0 +1,306 @@
+{%load static %}
+<!DOCTYPE html>
+<html class=''>
+<head>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!------ Include the above in your HEAD tag ---------->
+
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <!------ Include the above in your HEAD tag ---------->
+
+
+<meta charset='UTF-8'><meta name="robots" content="noindex">
+<link rel="shortcut icon" type="image/x-icon" href="//production-assets.codepen.io/assets/favicon/favicon-8ea04875e70c4b0bb41da869e81236e54394d63638a1ef12fa558a4a835f1164.ico" />
+<link rel="mask-icon" type="" href="//production-assets.codepen.io/assets/favicon/logo-pin-f2d2b6d2c61838f7e76325261b7195c27224080bc099486ddd6dccb469b8e8e6.svg" color="#111" />
+<link rel="canonical" href="https://codepen.io/emilcarlsson/pen/ZOQZaV?limit=all&page=74&q=contact+" />
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600,700,300' rel='stylesheet' type='text/css'>
+
+<script src="https://use.typekit.net/hoy3lrg.js"></script>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css'>
+<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.2/css/font-awesome.min.css'>
+<style class="cp-pen-styles">
+
+</style>
+<link rel="stylesheet" href="{%static 'css/style.css'%}">
+</head>
+<body>
+
+
+<div id="frame">
+  <div id="sidepanel">
+		<div id="profile">
+			<div class="wrap">
+				<img id="profile-img" src="{%static 'images/anon.png'%}" class="online" alt="" />
+				<p>{{usern}}</p>
+				<i class="fa fa-chevron-down expand-button" aria-hidden="true"></i>
+				<div id="status-options">
+					<ul>
+						<li id="status-online" class="active"><span class="status-circle"></span> <p>Online</p></li>
+						<li id="status-away"><span class="status-circle"></span> <p>Away</p></li>
+						<li id="status-busy"><span class="status-circle"></span> <p>Busy</p></li>
+						<li id="status-offline"><span class="status-circle"></span> <p>Offline</p></li>
+					</ul>
+				</div>
+				<div id="expanded">
+					<label for="twitter"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></label>
+          {%if facebook%}
+					<input name="twitter" type="label" value="{{facebook}}" disabled/>
+          {%else%}
+          <input name="twitter" type="text" value="Empty" disabled/>
+          {%endif%}
+					<label for="twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></label>
+          {%if twitter%}
+					<input name="twitter" type="label" value="{{twitter}}" disabled/>
+          {%else%}
+          <input name="twitter" type="text" value="Empty" disabled/>
+          {%endif%}
+          <label for="twitter"><i class="fa fa-instagram fa-fw" aria-hidden="true"></i></label>
+          {%if instagram%}
+					<input name="twitter" type="text" value="{{instagram}}" disabled/>
+          {%else%}
+          <input name="twitter" type="text" value="Empty" disabled/>
+          {%endif%}
+          <label for="twitter"><i class="fa fa-phone fa-fw" aria-hidden="true"></i></label>
+          {%if phone%}
+					<input name="twitter" type="text" value="{{phone}}" disabled/>
+          {%else%}
+          <input name="twitter" type="text" value="Empty" disabled/>
+          {%endif%}
+				</div>
+			</div>
+		</div>
+		<div id="search">
+			<label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+			<input type="text" placeholder="Search contacts..." />
+		</div>
+		<div id="contacts">
+			<ul>
+        {%for fr in friends%}
+        {%ifequal fr friend%}
+				<li class="contact active">
+					<a href="{%url 'social_app:get_room' friend_id=fr %}"><div class="wrap">
+						<span class="contact-status online"></span>
+						<img src="{%static 'images/anon.png'%}" alt="" />
+						<div class="meta">
+							<p class="name" id="convo_id">{{fr}}</p>
+							<p class="preview"></p>
+						</div>
+					</div></a>
+				</li>
+        {%else%}
+        <li class="contact">
+					<a href="{%url 'social_app:get_room' friend_id=fr %}"><div class="wrap">
+						<span class="contact-status online"></span>
+						<img src="{%static 'images/anon.png'%}" alt="" />
+						<div class="meta">
+							<p class="name" id="convo_id">{{fr}}</p>
+							<p class="preview"></p>
+						</div>
+					</div></a>
+				</li>
+        {%endifequal%}
+        {%endfor%}
+				<!--<li class="contact active">
+					<div class="wrap">
+						<span class="contact-status busy"></span>
+						<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+						<div class="meta">
+							<p class="name">Harvey Specter</p>
+							<p class="preview">Wrong. You take the gun, or you pull out a bigger one. Or, you call their bluff. Or, you do any one of a hundred and forty six other things.</p>
+						</div>
+					</div>
+				</li>-->
+      </ul>
+		</div>
+
+    <div id="search">
+      <form method="get" action="{%url 'social_app:lookup_profile'%}">
+          <label for=""></label>
+          {{contact.contact_name}}
+  		    <div class="row" id="bottom-bar">
+  			       <button id="addcontact"><i class="fa fa-user-plus fa-fw" aria-hidden="true"></i> <span>lookup</span></button>
+  		    <!--	<button id="settings"><i class="fa fa-cog fa-fw" aria-hidden="true"></i> <span>Settings</span></button>-->
+  		    </div>
+      </form>
+  </div>
+	</div>
+	<div class="content">
+		<div class="contact-profile">
+			<img src="http://emilcarlsson.se/assets/harveyspecter.png" alt="" />
+			<p>{{friend}}</p>
+			<div class="social-media">
+				<i class="fa fa-facebook" aria-hidden="true"></i>
+				<i class="fa fa-twitter" aria-hidden="true"></i>
+				 <i class="fa fa-instagram" aria-hidden="true"></i>
+			</div>
+		</div>
+		<div class="messages">
+			<ul>
+
+
+      </ul>
+		</div>
+		<div class="message-input">
+			<div class="wrap">
+			<input type="text" id="chat-message-input" placeholder="Write your message..." />
+			<i class="fa fa-paperclip attachment" aria-hidden="true"></i>
+			<button id="chat-message-submit" class="submit" ><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+			</div>
+		</div>
+	</div>
+</div>
+
+{{ room_name|json_script:"room-name" }}
+<script src='//production-assets.codepen.io/assets/common/stopExecutionOnTimeout-b2a7b3fe212eaa732349046d8416e00a9dec26eb7fd347590fbced3ab38af52e.js'></script><script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+<script src="{%static 'js/reconnecting-websocket.js'%}"></script>
+<script >
+const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+const chatSocket = new ReconnectingWebSocket(
+    'ws://'
+    + window.location.host
+    + '/ws/chat/'
+    + roomName
+    +'/'
+);
+
+$(".messages").animate({ scrollTop: $(document).height() }, "fast");
+
+$("#profile-img").click(function() {
+	$("#status-options").toggleClass("active");
+});
+
+$(".expand-button").click(function() {
+  $("#profile").toggleClass("expanded");
+	$("#contacts").toggleClass("expanded");
+});
+
+$("#status-options ul li").click(function() {
+	$("#profile-img").removeClass();
+	$("#status-online").removeClass("active");
+	$("#status-away").removeClass("active");
+	$("#status-busy").removeClass("active");
+	$("#status-offline").removeClass("active");
+	$(this).addClass("active");
+
+	if($("#status-online").hasClass("active")) {
+		$("#profile-img").addClass("online");
+	} else if ($("#status-away").hasClass("active")) {
+		$("#profile-img").addClass("away");
+	} else if ($("#status-busy").hasClass("active")) {
+		$("#profile-img").addClass("busy");
+	} else if ($("#status-offline").hasClass("active")) {
+		$("#profile-img").addClass("offline");
+	} else {
+		$("#profile-img").removeClass();
+	};
+
+	$("#status-options").removeClass("active");
+});
+
+function newMessage(message) {
+
+	if($.trim(message) == '') {
+		return false;
+	}
+
+	$('.message-input input').val(null);
+	$(".messages").animate({ scrollTop: $(document).height() }, "fast");
+  chatSocket.send(JSON.stringify({
+      'message': message,
+      'command':'new_messages',
+      'from':{{username}},
+      'to':{{receiver}}
+  }));
+
+};
+ var jsonObject = JSON.parse('{{ json_string | escapejs }}');
+
+function newMsg(message,i,ss){
+  if($.trim(message) == '') {
+		return false;
+	}
+//<small>{Math.round(new Date().getTime() - new Date(message.[0]['time_stamp']))} minutes ago</small>
+
+  if(ss==='message'){
+
+    if(message[0]['author']=={{username}}){
+      $('.contact.active .preview').html('<span>You: </span>' + message);
+      $('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p>' + message[0]['content'] + '</p></li>').appendTo($('.messages ul'));
+      $('.contact.active .preview').html('<span>You: </span>' + message[0]['content']);
+      $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+    }
+    else{
+      $('.contact.active .preview').html('' + message);
+      $('<li class="replies"><img src="http://emilcarlsson.se/assets/mikeross.png" alt=""/><p>' + message[0]['content'] + '</p></li>').appendTo($('.messages ul'));
+      $('.contact.active .preview').html('<span> </span>' + message[0]['content']);
+      $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+    }
+
+  }
+
+  if(message[ss][i]['author']=={{username}}){
+    $('<li class="sent"><img src="http://emilcarlsson.se/assets/mikeross.png" alt="" /><p>' + message[ss][i]['content'] + '</p></li>').appendTo($('.messages ul'));
+    $('.contact.active .preview').html('<span>You: </span>' + message[ss][i]['content']);
+    $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+  }
+  else{
+    $('<li class="replies"><img src="http://emilcarlsson.se/assets/mikeross.png" alt=""/><p>' + message[ss][i]['content'] + '</p></li>').appendTo($('.messages ul'));
+    $('.contact.active .preview').html('<span></span>' + message[ss][i]['content']);
+    $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+  }
+}
+
+chatSocket.onmessage = function(e) {
+    const data = JSON.parse(e.data);
+    //document.querySelector('#chat-log').value += (data.message + '\n');
+    if(data['command']==='new_messages'){
+      newMsg(data.message,0,'message');
+    //alert(data['command']);
+    }
+    if(data['command']==='messages'){
+      for (let i=data['messages'].length-1;i>=0;i--){
+        newMsg(data,i,'messages');
+      }
+    }
+
+    //newMsg(data.message,0,'message');
+};
+
+chatSocket.onopen = function(e) {
+  chatSocket.send(JSON.stringify({
+      'command': 'fetch_messages',
+      'from':{{username}},
+      'to':{{receiver}},
+      'status':'online'
+  }));
+};
+
+
+chatSocket.onclose = function(e) {
+    console.error('Chat socket closed unexpectedly');
+};
+
+document.querySelector('#chat-message-input').focus();
+
+document.querySelector('#chat-message-input').onkeyup = function(e) {
+    if (e.keyCode === 13) {  // enter, return
+        document.querySelector('#chat-message-submit').click();
+    }
+};
+
+$( "#chat-message-submit" ).on( "click", function(e) {
+  e.preventDefault();
+  e.stopImmediatePropagation();
+  message = $(".message-input input").val();
+  newMessage(message);
+  $(".message-input input").val('');
+});
+
+</script>
+</body>
+</html>

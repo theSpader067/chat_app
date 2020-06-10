@@ -1,0 +1,2058 @@
+{%load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Slek - Chat and Discussion Platform</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="{%static 'assets/favicon.png'%}" type="image/png">
+
+    <!-- Bundle Styles -->
+    <link rel="stylesheet" href="{%static 'assets/bundle.css'%}">
+
+    <link rel="stylesheet" href="{%static 'assets/enjoyhint.css'%}">
+
+    <!-- App styles -->
+    <link rel="stylesheet" href="{%static 'assets/app.min.css'%}">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body class="dark">
+  <video class="myVideo"  id="video_001" width="javascript:window.innerWidth;" height="javascript:window.innerHeight;">
+    <source src="{%static 'images/first_vid.mp4'%}" type="video/mp4">
+  </video>
+  <video class="myVideo"  id="video_002">
+    <source src="{%static 'images/sec_vid.mp4'%}" type="video/mp4">
+  </video>
+  <style>
+  .myVideo {
+    position: fixed;
+    top:1px;
+    right: 0;
+    bottom: 5px;
+
+    overflow-y: scroll;
+    z-index:-1;
+  }
+  </style>
+
+<!-- page loading -->
+<div class="page-loading"></div>
+<!-- ./ page loading -->
+
+<!-- page tour modal -->
+<!--<div class="modal fade" id="pageTour" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-zoom" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center pt-5">
+                <div class="row">
+                    <div class="col-md-6 offset-3">
+                        <figure>
+                            <img src="{%static 'assets/product_tour.svg'%}" class="img-fluid" alt="image">
+                        </figure>
+                        <p class="lead mt-5">Would you like to take a short page tour?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-primary start-tour">Start Tour</button>
+                <button type="button" class="btn btn-link" data-dismiss="modal" aria-label="Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>-->
+<!-- ./ page tour modal -->
+
+<!-- disconnected modal -->
+<div class="modal fade" id="disconnected" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-zoom" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row mb-5">
+                    <div class="col-md-6 offset-3">
+                        <img src="{%static 'assets/warning.svg'%}" class="img-fluid" alt="image">
+                    </div>
+                </div>
+                <p class="lead text-center">Application disconnected</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-success btn-lg">Reconnect</button>
+                <a href="javascript:window.location.assign('/accounts/logout');" class="btn btn-link">Logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ./ disconnected modal -->
+
+<!-- voice call modal -->
+<div class="modal call fade" id="call" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="call">
+                    <div>
+                        <figure class="mb-4 avatar avatar-xl">
+
+                            <img src="{%static 'assets/women_avatar1.jpg'%}" class="rounded-circle" alt="image">
+                        </figure>
+                        <h4>Brietta Blogg <span class="text-success">calling...</span></h4>
+                        <div class="action-button">
+                            <button type="button" class="btn btn-danger btn-floating btn-lg" data-dismiss="modal">
+                                <i data-feather="x"></i>
+                            </button>
+                            <button type="button" class="btn btn-success btn-pulse btn-floating btn-lg">
+                                <i data-feather="phone"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ./ voice call modal -->
+
+<!-- voice call modal -->
+<div class="modal call fade" id="videoCall" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="call">
+                    <div>
+                        <figure class="mb-4 avatar avatar-xl">
+                            <img src="{%static 'assets/women_avatar1.jpg'%}" class="rounded-circle" alt="image">
+                        </figure>
+                        <h4>Brietta Blogg <span class="text-success">video calling...</span></h4>
+                        <div class="action-button">
+                            <button type="button" class="btn btn-danger btn-floating btn-lg" data-dismiss="modal">
+                                <i data-feather="x"></i>
+                            </button>
+                            <button type="button" class="btn btn-success btn-pulse btn-floating btn-lg">
+                                <i data-feather="video"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ./ voice call modal -->
+
+<!-- add friends modal -->
+<div class="modal fade" id="addFriends" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i data-feather="user-plus" class="mr-2"></i> Add Friends
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-info">Send invitations to friends.</div>
+                <form>
+                    <div class="form-group">
+                        <label for="emails" class="col-form-label">Email addresses</label>
+                        <input type="text" class="form-control" id="emails">
+                    </div>
+                    <div class="form-group">
+                        <label for="message" class="col-form-label">Invitation message</label>
+                        <textarea class="form-control" id="message"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ./ add friends modal -->
+
+<!-- new group modal -->
+<div class="modal fade" id="newGroup" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i data-feather="users" class="mr-2"></i> New Group
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="group_name" class="col-form-label">Group name</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="group_name">
+                            <div class="input-group-append">
+                                <button class="btn btn-light" data-toggle="tooltip" title="Emoji" type="button">
+                                    <i data-feather="smile"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="mb-2">The group members</p>
+                    <div class="form-group">
+                        <div class="avatar-group">
+                            <figure class="avatar" data-toggle="tooltip" title="Tobit Spraging">
+                                <span class="avatar-title bg-success rounded-circle">T</span>
+                            </figure>
+                            <figure class="avatar" data-toggle="tooltip" title="Cloe Jeayes">
+                                <img src="{%static 'assets/women_avatar4.jpg'%}" class="rounded-circle" alt="image">
+                            </figure>
+                            <figure class="avatar" data-toggle="tooltip" title="Marlee Perazzo">
+                                <span class="avatar-title bg-warning rounded-circle">M</span>
+                            </figure>
+                            <figure class="avatar" data-toggle="tooltip" title="Stafford Pioch">
+                                <img src="{%static 'assets/man_avatar1.jpg'%}" class="rounded-circle" alt="image">
+                            </figure>
+                            <figure class="avatar" data-toggle="tooltip" title="Bethena Langsdon">
+                                <span class="avatar-title bg-info rounded-circle">B</span>
+                            </figure>
+                            <a href="#" title="Add friends" data-toggle="modal" data-target="#groupModal">
+                                <figure class="avatar">
+                                    <span class="avatar-title bg-primary rounded-circle">
+                                        <i data-feather="plus"></i>
+                                    </span>
+                                </figure>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description" class="col-form-label">Description</label>
+                        <textarea class="form-control" id="description"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button"  id="create-group" class="btn btn-primary">Create Group</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ./ new group modal -->
+
+<!-- setting modal -->
+<div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fa fa-user mr-2"></i> lookup contact
+                </h5>
+                <button type="button" class="close" data-dismiss="modal"  aria-label="Close">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="tab-content">
+
+                        <form action="{%url 'social_app:lookup_profile'%}" method="get" id='contact_form'>
+                          {{contact.contact_name}}
+                          <div class="modal-footer">
+                              <button type="button" id="contact_click" class="btn btn-primary">Lookup</button>
+                          </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ./ setting modal -->
+
+<!-- group modal -->
+<div class="modal fade" id="groupModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fa fa-user mr-2"></i> add group members
+                </h5>
+                <button type="button" class="close" data-dismiss="modal"  aria-label="Close">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="tab-content">
+
+                  <ul>
+                    {%for frob,a,msg in friends_objects%}
+                    <li class="list-group-item" style="background-color:#1a2236">
+                      <div class="row">
+                       <div style="background-color:#1a2236">
+                           <figure class="avatar" style="background-color:#1a2236">
+                               <img src="{%static frob.avatar%}" class="rounded-circle" alt="image">
+                           </figure>
+                       </div>
+
+                       <div class="float-right col-9 mt-2"><b>{{frob.profile_id}}</b></div>
+                       <div class="float-right col mt-3">
+                         <input type="checkbox" name="group_member" value="{{frob.profile_id}}">
+                       </div>
+                     </div>
+                   </li>
+                   <hr>
+                    {%endfor%}
+                  </ul>
+                    <div class="validate=members float-right" class="close" data-dismiss="modal" id="validate" aria-label="Close"><button class="btn btn-warning"> create </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+<!-- ./ group modal -->
+
+<!-- edit profile modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i data-feather="edit-2" class="mr-2"></i> Edit Profile
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#personal" role="tab"
+                           aria-controls="personal" aria-selected="true">Personal</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#about" role="tab" aria-controls="about"
+                           aria-selected="false">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#social-links" role="tab"
+                           aria-controls="social-links" aria-selected="false">Social Links</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane show active" id="personal" role="tabpanel">
+                        <form  method="post" action="{%url 'social_app:profile_register' room_name=room_name friend=friend %}">
+                          {%csrf_token%}
+                            <div class="form-group">
+                                <label for="fullname" class="col-form-label">Fullname</label>
+                                <div class="input-group">
+                                  {{personal_profile.full_name}}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i data-feather="user"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="form-group">
+                                <label class="col-form-label">Avatar</label>
+                                <div class="d-flex align-items-center">
+                                    <div>
+                                        <figure class="avatar mr-3 item-rtl">
+                                            <img src="{%static 'assets/man_avatar4.jpg'%}" class="rounded-circle"
+                                                 alt="image">
+                                        </figure>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="customFile">
+                                        <label class="custom-file-label" for="customFile">Choose file</label>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <div class="form-group">
+                                <label for="fullname" class="col-form-label">Email</label>
+                                <div class="input-group">
+                                    {{personal_profile.email}}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i data-feather="user"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" class="col-form-label">Phone</label>
+                                <div class="input-group">
+                                    {{personal_profile.phone}}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i data-feather="phone"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" value="save">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="about" role="tabpanel">
+                        <form method="post" action="{%url 'social_app:profile_register' room_name=room_name friend=friend%}">
+                            {%csrf_token%}
+                            <div class="form-group">
+                                <label for="about-text" class="col-form-label">Write a few words that describe
+                                    you</label>
+                                {{about_profile.personal_motto}}
+                            </div>
+                            <div class="custom-control custom-checkbox">
+                                <!--<input type="checkbox" class="custom-control-input" checked id="customCheck1">
+                                <label class="custom-control-label" for="customCheck1">View profile</label>-->
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" value="save">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane" id="social-links" role="tabpanel">
+                        <form method="post" action="{%url 'social_app:profile_register' room_name=room_name friend=friend%}">
+                            {%csrf_token%}
+                            <div class="form-group">
+                                <div class="input-group">
+                                    {{social_link_profile.facebook_handle}}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text bg-facebook">
+                                            <i class="fa fa-facebook"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                  {{social_link_profile.twitter_handle}}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text bg-twitter">
+                                            <i class="fa fa-twitter"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    {{social_link_profile.instagram_handle}}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text bg-instagram">
+                                            <i class="fa fa-instagram"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    {{social_link_profile.linkedin_handle}}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text bg-linkedin">
+                                            <i class="fa fa-linkedin"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    {{social_link_profile.youtube_handle}}
+                                    <div class="input-group-append">
+                                        <span class="input-group-text bg-youtube">
+                                            <i class="fa fa-youtube"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <input type="submit" value="save">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ./ edit profile modal -->
+
+<!-- layout -->
+<div class="layout">
+
+    <!-- navigation -->
+    <nav class="navigation">
+        <div class="nav-group">
+            <ul>
+                <li class="logo">
+                    <a href="{% url 'social_app:profile'%}">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                             width="612px" height="612px" viewBox="0 0 612 612"
+                             style="enable-background:new 0 0 612 612;" xml:space="preserve">
+                            <g>
+                                <g id="_x32__26_">
+                                    <g>
+                                    <path d="M401.625,325.125h-191.25c-10.557,0-19.125,8.568-19.125,19.125s8.568,19.125,19.125,19.125h191.25
+                                    c10.557,0,19.125-8.568,19.125-19.125S412.182,325.125,401.625,325.125z M439.875,210.375h-267.75
+                                    c-10.557,0-19.125,8.568-19.125,19.125s8.568,19.125,19.125,19.125h267.75c10.557,0,19.125-8.568,19.125-19.125
+                                    S450.432,210.375,439.875,210.375z M306,0C137.012,0,0,119.875,0,267.75c0,84.514,44.848,159.751,114.75,208.826V612
+                                    l134.047-81.339c18.552,3.061,37.638,4.839,57.203,4.839c169.008,0,306-119.875,306-267.75C612,119.875,475.008,0,306,0z
+                                    M306,497.25c-22.338,0-43.911-2.601-64.643-7.019l-90.041,54.123l1.205-88.701C83.5,414.133,38.25,345.513,38.25,267.75
+                                    c0-126.741,119.875-229.5,267.75-229.5c147.875,0,267.75,102.759,267.75,229.5S453.875,497.25,306,497.25z"/>
+                                    </g>
+                                </g>
+                            </g>
+                            <g></g>
+                            <g></g>
+                            <g></g>
+                            <g></g>
+                            <g></g>
+                            <g></g>
+                            <g></g>
+                            <g></g>
+                            <g></g>
+                            <g></g>
+                            <g></g>
+                            <g></g>
+                            <g></g>
+                            <g></g>
+                            <g></g>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <a class="active" data-navigation-target="chats" href="#" data-toggle="tooltip" title="Chats"
+                       data-placement="right">
+                        <span class="badge badge-warning"></span>
+                        <i data-feather="message-circle"></i>
+                    </a>
+                </li>
+                <li>
+                    <a data-navigation-target="friends" href="#" data-toggle="tooltip"
+                       title="Friends" data-placement="right">
+                        <span class="badge badge-danger"></span>
+                        <i data-feather="user"></i>
+                    </a>
+                </li>
+                <li>
+
+                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#settingModal">
+                    <span class="badge badge-primary"></span>
+                    <i class="fa fa-search"></i></a>
+                </li>
+              <!--  <li>
+                    <a data-navigation-target="favorites" data-toggle="tooltip" title="Favorites" data-placement="right"
+                       href="#">
+                        <i data-feather="star"></i>
+                    </a>
+                </li>
+                <li class="brackets">
+                    <a data-navigation-target="archived" href="#" data-toggle="tooltip"
+                       title="Archived" data-placement="right">
+                        <i data-feather="archive"></i>
+                    </a>
+                </li>-->
+                <li>
+                    <a href="#" class="dark-light-switcher" data-toggle="tooltip" title="Light mode"
+                       data-placement="right">
+                        <i data-feather="moon"></i>
+                    </a>
+                </li>
+                <li data-toggle="tooltip" title="User menu" data-placement="right">
+                    <a href="#" data-toggle="dropdown">
+                        <figure class="avatar">
+                            <img src="{%static pro.avatar%}" class="rounded-circle" alt="image">
+                        </figure>
+                    </a>
+                    <div class="dropdown-menu">
+                        <a href="#" class="dropdown-item" data-toggle="modal" data-target="#editProfileModal">Edit
+                            profile</a>
+                        <a href="#" class="dropdown-item" data-navigation-target="personal-information">Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a href="javascript:window.location.assign('/accounts/logout');" id="to_logout" class="dropdown-item text-danger">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- ./ navigation -->
+
+    <!-- content -->
+    <div class="content">
+
+        <!-- sidebar group -->
+        <div class="sidebar-group">
+
+            <!-- Chats sidebar -->
+            <div id="chats" class="sidebar ">
+                <header>
+                    <span>Chats</span>
+                    <ul class="list-inline">
+                        <li class="list-inline-item" data-toggle="tooltip" title="New group">
+                            <a class="btn btn-outline-light" href="#" data-toggle="modal" data-target="#newGroup">
+                                <i data-feather="users"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="btn btn-outline-light" data-toggle="tooltip" title="New chat" href="#"
+                               data-navigation-target="friends">
+                                <i data-feather="plus-circle"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item d-inline">
+                            <a href="#" class="btn btn-outline-light text-danger sidebar-close">
+                                <i data-feather="x"></i>
+                            </a>
+                        </li>
+
+                    </ul>
+                </header>
+                <form>
+                    <input type="text" class="form-control" placeholder="Search chats">
+                </form>
+                <style>
+                .sidebar-body li{
+                  background-color: #1a2236;
+                }
+                .sidebar-body  a {
+                  text-decoration: none;
+                  color:white;
+                }
+                .sidebar-body  a:hover{
+                  text-decoration: none;
+                  color:white;
+                }
+                </style>
+                <div class="sidebar-body">
+                    <ul class="list-group list-group-flush">
+                        <!--<li class="list-group-item">
+                            <figure class="avatar avatar-state-success">
+                                <img src="{%static 'assets/man_avatar1.jpg'%}" class="rounded-circle" alt="image">
+                            </figure>
+                            <div class="users-list-body">
+                                <div>
+                                    <h5 class="text-primary">Townsend Seary</h5>
+                                    <p>What's up, how are you?</p>
+                                </div>
+                                <div class="users-list-action">
+                                    <div class="new-message-count">3</div>
+                                    <small class="text-primary">03:41 PM</small>
+                                </div>
+                            </div>
+                        </li>-->
+                        {%for f,link,msg in friends_objects%}
+                        <a href="javascript:window.location.assign('/chat/{{link}}/{{f.profile_id}}');">
+
+                        {%ifequal f.profile_id friend %}
+                        <li class="list-group-item open-chat">
+
+                          {%else%}
+                          <li class="list-group-item ">
+                          {%endifequal%}
+                          {%ifequal f.profile_status 'ON' %}
+                            <figure id="{{f.profile_id}}-status" class="avatar avatar-state-success">
+                                <img src="{%static f.avatar%}" class="rounded-circle" alt="image">
+                            </figure>
+                            {%endifequal%}
+                            {%ifequal f.profile_status 'OFF' %}
+                              <figure id="{{f.profile_id}}-status" class="avatar avatar-state-warning">
+                                  <img src="{%static f.avatar%}" class="rounded-circle" alt="image">
+                              </figure>
+                              {%endifequal%}
+
+                            <div class="users-list-body">
+                                <div>
+                                    <h5 class="text-primary">{{f.profile_id}}</h5>
+                                    {%ifequal f.profile_id friend%}
+                                    <p id="last-message">{{msg}}</p>
+                                    {%else%}
+                                      <p id="another-message">{{msg}}</p>
+                                      {%endifequal%}
+                                </div>
+                                <div class="users-list-action">
+                                    <!--<div class="new-message-count">3</div>-->
+                                    <small class="text-primary" id="last-message-time"></small>
+                                </div>
+                            </div>
+
+                        </li>
+                      </a>
+                        {%endfor%}
+                        <hr>
+                        <h5>&nbsp; &nbsp;My Groups</h5>
+                        {%for grp in my_groups%}
+
+                        <li class="list-group-item">
+                          <a href="javascript:window.location.assign('/chat/{{grp.group_room}}/{{grp.group_room}}');" >
+                           <div>
+                               <figure class="avatar">
+                                   <img src="{%static 'images/anon.png'%}" class="rounded-circle" alt="image">
+                               </figure>
+                           </div>
+                           <div class="users-list-body">
+                               <div>
+                                   <h5>{{grp.group_room}}</h5>
+                                   <p>{{grp.group_description}}</p>
+                               </div>
+                               <div class="users-list-action">
+                                   <div class="action-toggle">
+                                       <div class="dropdown">
+                                           <a data-toggle="dropdown" href="#">
+                                               <i data-feather="more-horizontal"></i>
+                                           </a>
+                                            &nbsp;&nbsp;
+
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                         </a>
+                       </li>
+                        {%endfor%}
+<!--                        <li class="list-group-item">
+                            <figure class="avatar avatar-state-warning">
+                                <img src="{%static 'assets/man_avatar4.jpg'%}" class="rounded-circle" alt="image">
+                            </figure>
+                            <div class="users-list-body">
+                                <div>
+                                    <h5 class="text-primary">Forest Kroch</h5>
+                                    <p>
+                                        <i class="fa fa-camera mr-1"></i> Photo
+                                    </p>
+                                </div>
+                                <div class="users-list-action">
+                                    <div class="new-message-count">1</div>
+                                    <small class="text-primary">Yesterday</small>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item open-chat">
+                            <div>
+                                <figure class="avatar">
+                                    <img src="{%static 'assets/man_avatar3.jpg'%}" class="rounded-circle" alt="image">
+                                </figure>
+                            </div>
+                            <div class="users-list-body">
+                                <div>
+                                    <h5>Byrom Guittet</h5>
+                                    <p>I sent you all the files. Good luck with </p>
+                                </div>
+                                <div class="users-list-action">
+                                    <small class="text-muted">11:05 AM</small>
+                                    <div class="action-toggle">
+                                        <div class="dropdown">
+                                            <a data-toggle="dropdown" href="#">
+                                                <i data-feather="more-horizontal"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="#" class="dropdown-item">Open</a>
+                                                <a href="#" data-navigation-target="personal-information"
+                                                   class="dropdown-item">Profile</a>
+                                                <a href="#" class="dropdown-item">Add to archive</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="dropdown-item text-danger">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <figure class="avatar">
+                                <span class="avatar-title bg-warning bg-success rounded-circle">
+                                    <i class="fa fa-users"></i>
+                                </span>
+                            </figure>
+                            <div class="users-list-body">
+                                <div>
+                                    <h5> My Family </h5>
+                                    <p><strong>Maher Ruslandi: </strong>Hello!!!</p>
+                                </div>
+                                <div class="users-list-action">
+                                    <small class="text-muted">Yesterday</small>
+                                    <div class="action-toggle">
+                                        <div class="dropdown">
+                                            <a data-toggle="dropdown" href="#">
+                                                <i data-feather="more-horizontal"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="#" class="dropdown-item">Open</a>
+                                                <a href="#" data-navigation-target="personal-information"
+                                                   class="dropdown-item">Profile</a>
+                                                <a href="#" class="dropdown-item">Add to archive</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="dropdown-item text-danger">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div>
+                                <figure class="avatar avatar-state-warning">
+                                    <img src="{%static 'assets/women_avatar1.jpg'%}" class="rounded-circle" alt="image">
+                                </figure>
+                            </div>
+                            <div class="users-list-body">
+                                <div>
+                                    <h5>Jennica Kindred</h5>
+                                    <p>
+                                        <i class="fa fa-video-camera mr-1"></i>
+                                        Video
+                                    </p>
+                                </div>
+                                <div class="users-list-action">
+                                    <small class="text-muted">03:41 PM</small>
+                                    <div class="action-toggle">
+                                        <div class="dropdown">
+                                            <a data-toggle="dropdown" href="#">
+                                                <i data-feather="more-horizontal"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="#" class="dropdown-item">Open</a>
+                                                <a href="#" data-navigation-target="personal-information"
+                                                   class="dropdown-item">Profile</a>
+                                                <a href="#" class="dropdown-item">Add to archive</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="dropdown-item text-danger">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+-->
+                    </ul>
+                </div>
+            </div>
+            <!-- ./ Chats sidebar -->
+
+            <!-- Friends sidebar -->
+            <div id="friends" class="sidebar">
+                <header>
+                    <span>Friends</span>
+                    <ul class="list-inline">
+                        <li class="list-inline-item" data-toggle="tooltip" title="Add friends">
+                            <a class="btn btn-outline-light" href="#" data-toggle="modal" data-target="#addFriends">
+                                <i class="fa fa-search"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item d-inline">
+                            <a href="#" class="btn btn-outline-light text-danger sidebar-close">
+                                <i data-feather="x"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </header>
+                <form>
+                    <input type="text" class="form-control" placeholder="Search friends">
+                </form>
+                <div class="sidebar-body">
+                    <ul class="list-group list-group-flush">
+                      {%for frob,v,msg in friends_objects%}
+                         <li class="list-group-item">
+                           <a href="javascript:window.location.assign('/chat/{{v}}/{{frob.profile_id}}');">
+                            <div>
+                                <figure class="avatar">
+                                    <img src="{%static frob.avatar%}" class="rounded-circle" alt="image">
+                                </figure>
+                            </div>
+                            <div class="users-list-body">
+                                <div>
+                                    <h5>{{frob.profile_id}}</h5>
+                                    <p>{{frob.personal_motto}}</p>
+                                </div>
+                                <div class="users-list-action">
+                                    <div class="action-toggle">
+                                        <div class="dropdown">
+                                            <a data-toggle="dropdown" href="#">
+                                                <i data-feather="more-horizontal"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="dropdown-item text-danger">Block</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </a>
+                        </li>
+                        {%endfor%}
+                        <hr>
+                        <h5>&nbsp; &nbsp;My Groups</h5>
+                        {%for grp in my_groups%}
+
+                        <li class="list-group-item">
+                          <a href="javascript:window.location.assign('/chat/{{grp.group_room}}/{{grp.group_room}}');">
+                           <div>
+                               <figure class="avatar">
+                                   <img src="{%static 'images/anon.png'%}" class="rounded-circle" alt="image">
+                               </figure>
+                           </div>
+                           <div class="users-list-body">
+                               <div>
+                                   <h5>{{grp.group_room}}</h5>
+                                   <p>{{grp.group_description}}</p>
+                               </div>
+                               <div class="users-list-action">
+                                   <div class="action-toggle">
+                                       <div class="dropdown">
+                                           <a data-toggle="dropdown" href="#">
+                                               <i data-feather="more-horizontal"></i>
+                                           </a>
+                                            &nbsp;&nbsp;
+
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                         </a>
+                       </li>
+                        {%endfor%}
+
+                        {%ifnotequal friend_requests_length 0%}
+
+                        {%for frrq in friend_requests%}
+                        <hr>
+                        <h5>&nbsp; &nbsp;Friend Requests</h5>
+                        <li class="list-group-item">
+                          <a  href="{%url 'social_app:foreign_profile' profile_id=frrq.profile_id %}">
+                           <div>
+                               <figure class="avatar">
+                                   <img src="{%static frrq.avatar%}" class="rounded-circle" alt="image">
+                               </figure>
+                           </div>
+                           <div class="users-list-body">
+                               <div>
+                                   <h5>{{frrq.profile_id}}</h5>
+                                   <p>{{frrq.personal_motto}}</p>
+                               </div>
+                               <div class="users-list-action">
+                                   <div class="action-toggle">
+                                       <div class="dropdown">
+                                           <a data-toggle="dropdown" href="#">
+                                               <i data-feather="more-horizontal"></i>
+                                           </a>
+                                            &nbsp;&nbsp;
+                                           <a href="{%url 'social_app:accept_friend' friend_id=frrq.profile_id%}"><i class="fa fa-check" style="color:green;"></i></a>
+                                           &nbsp;&nbsp;
+                                           <a href="{%url 'social_app:decline_friend' friend_id=frrq.profile_id%}"><i class="fa fa-times" style="color:red;"></i></a>
+                                           <div class="dropdown-menu dropdown-menu-right">
+                                             <div class="mr-4"><a href="{%url 'social_app:foreign_profile' profile_id=frrq.profile_id%}" style="color:white;">&nbsp;&nbsp;Visit Profile </a></div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                         </a>
+                       </li>
+                        {%endfor%}
+                        {%endifnotequal%}
+                    </ul>
+                </div>
+            </div>
+            <style>
+              li a{
+                text-decoration: none;
+                color:white;
+              }
+              li a:hover{
+                text-decoration: none;
+                color:white;
+              }
+            </style>
+            <!-- ./ Friends sidebar -->
+
+            <!-- lookup sidebar -->
+
+            <!-- ./ lookup sidebar -->
+
+            <!-- Favorites sidebar -->
+            <!--<div id="favorites" class="sidebar">
+                <header>
+                    <span>Favorites</span>
+                    <ul class="list-inline">
+                        <li class="list-inline-item d-xl-none d-inline">
+                            <a href="#" class="btn btn-outline-light text-danger sidebar-close">
+                                <i data-feather="x"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </header>
+                <form>
+                    <input type="text" class="form-control" placeholder="Search favorites">
+                </form>
+                <div class="sidebar-body">
+                    <ul class="list-group list-group-flush users-list">
+                        <li class="list-group-item">
+                            <div class="users-list-body">
+                                <div>
+                                    <h5>Jennica Kindred</h5>
+                                    <p>I know how important this file is to you. You can trust me ;)</p>
+                                </div>
+                                <div class="users-list-action">
+                                    <div class="action-toggle">
+                                        <div class="dropdown">
+                                            <a data-toggle="dropdown" href="#">
+                                                <i data-feather="more-horizontal"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="#" class="dropdown-item">Open</a>
+                                                <a href="#" class="dropdown-item">Remove favorites</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="users-list-body">
+                                <div>
+                                    <h5>Marvin Rohan</h5>
+                                    <p>Lorem ipsum dolor sitsdc sdcsdc sdcsdcs</p>
+                                </div>
+                                <div class="users-list-action">
+                                    <div class="action-toggle">
+                                        <div class="dropdown">
+                                            <a data-toggle="dropdown" href="#">
+                                                <i data-feather="more-horizontal"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="#" class="dropdown-item">Open</a>
+                                                <a href="#" class="dropdown-item">Remove favorites</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="users-list-body">
+                                <div>
+                                    <h5>Frans Hanscombe</h5>
+                                    <p>Lorem ipsum dolor sitsdc sdcsdc sdcsdcs</p>
+                                </div>
+                                <div class="users-list-action">
+                                    <div class="action-toggle">
+                                        <div class="dropdown">
+                                            <a data-toggle="dropdown" href="#">
+                                                <i data-feather="more-horizontal"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="#" class="dropdown-item">Open</a>
+                                                <a href="#" class="dropdown-item">Remove favorites</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <div class="users-list-body">
+                                <div>
+                                    <h5>Karl Hubane</h5>
+                                    <p>Lorem ipsum dolor sitsdc sdcsdc sdcsdcs</p>
+                                </div>
+                                <div class="users-list-action">
+                                    <div class="action-toggle">
+                                        <div class="dropdown">
+                                            <a data-toggle="dropdown" href="#">
+                                                <i data-feather="more-horizontal"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="#" class="dropdown-item">Open</a>
+                                                <a href="#" class="dropdown-item">Remove favorites</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>-->
+            <!-- ./ Stars sidebar -->
+
+            <!-- Archived sidebar -->
+            <!--<div id="archived" class="sidebar">
+                <header>
+                    <span>Archived</span>
+                    <ul class="list-inline">
+                        <li class="list-inline-item d-xl-none d-inline">
+                            <a href="#" class="btn btn-outline-light text-danger sidebar-close">
+                                <i data-feather="x"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </header>
+                <form>
+                    <input type="text" class="form-control" placeholder="Search archived">
+                </form>
+                <div class="sidebar-body">
+                    <ul class="list-group list-group-flush users-list">
+                        <li class="list-group-item">
+                            <figure class="avatar">
+                                <span class="avatar-title bg-danger rounded-circle">M</span>
+                            </figure>
+                            <div class="users-list-body">
+                                <div>
+                                    <h5>Mercedes Pllu</h5>
+                                    <p>I know how important this file is to you. You can trust me ;)</p>
+                                </div>
+                                <div class="users-list-action">
+                                    <div class="action-toggle">
+                                        <div class="dropdown">
+                                            <a data-toggle="dropdown" href="#">
+                                                <i data-feather="more-horizontal"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="#" class="dropdown-item">Open</a>
+                                                <a href="#" class="dropdown-item">Restore</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="dropdown-item text-danger">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            <figure class="avatar">
+                                <span class="avatar-title bg-secondary rounded-circle">R</span>
+                            </figure>
+                            <div class="users-list-body">
+                                <div>
+                                    <h5>Rochelle Golley</h5>
+                                    <p>Lorem ipsum dolor sitsdc sdcsdc sdcsdcs</p>
+                                </div>
+                                <div class="users-list-action">
+                                    <div class="action-toggle">
+                                        <div class="dropdown">
+                                            <a data-toggle="dropdown" href="#">
+                                                <i data-feather="more-horizontal"></i>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right">
+                                                <a href="#" class="dropdown-item">Open</a>
+                                                <a href="#" class="dropdown-item">Restore</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a href="#" class="dropdown-item text-danger">Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>-->
+            <!-- ./ Archived sidebar -->
+
+        </div>
+        <!-- ./ sidebar group -->
+
+        <!-- chat -->
+        <div class="chat">
+            <div class="chat-header">
+                <div class="chat-header-user">
+                    <figure class="avatar">
+                        <img src="{%static friend_profile.avatar%}" class="rounded-circle" alt="image">
+                    </figure>
+                    <div>
+                        <h5>{{friend}}</h5>
+                        <small class="text-status-success">
+                          <!--  <i>writing...</i>-->
+                        </small>
+                    </div>
+                </div>
+                <div class="chat-header-action">
+                    <ul class="list-inline">
+                        <li class="list-inline-item d-xl-none d-inline">
+                            <a href="#" class="btn btn-outline-light mobile-navigation-button">
+                                <i data-feather="menu"></i>
+                            </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" class="btn btn-outline-light" data-toggle="dropdown">
+                                <i class="fa fa-caret-right"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                              <ul>
+                                <li>
+                                  <span style="color:white;">&nbsp;Iron Man 01</span> &nbsp;
+                                  <a class="video_001" id="video_001-play"><i class="fa fa-play" style="color:green;"></i></a>&nbsp; <a class="video_001" id="video_001-stop"><i class="fa fa-stop" style="color:red;"></i></a>&nbsp; <a class="video_001" id="video_001-repeat"><i class="fa fa-repeat" style="color:blue;"></i>
+                                  </a>
+                                  <div class="btn btn-outline-light" data-toggle="dropdown">
+                                    <i class="fa fa-caret-down"></i>
+                                    <div class="dropdown-men">
+                                      <input id="vol-control" type="range" min="0" max="100" step="1" oninput="SetVolume(this.value,'video_001')" onchange="SetVolume(this.value,'video_001')"></input>
+                                    </div>
+                                  </div>
+                                </li>
+                              </li>
+                                  <span style="color:white;">&nbsp;Beautiful Boy</span> &nbsp;
+                                  <a class="video_002" id="video_002-play"><i class="fa fa-play" style="color:green;"></i></a>&nbsp; <a class="video_002" id="video_002-stop"><i class="fa fa-stop" style="color:red;"></i></a>&nbsp; <a class="video_002" id="video_002-repeat"><i class="fa fa-repeat" style="color:blue;"></i>
+                                  </a>
+                                  <div class="btn btn-outline-light" data-toggle="dropdown">
+                                    <i class="fa fa-caret-down"></i>
+                                    <div class="dropdown-men ">
+                                      <input id="vol-control" type="range" min="0" max="100" step="1" oninput="SetVolume(this.value,'video_002')" onchange="SetVolume(this.value,'video_002')"></input>
+                                    </div>
+                                  </div>
+                                </li>
+                              </ul>
+                                <!--<a href="#" class="dropdown-item">Add to archive</a>
+                                <a href="#" class="dropdown-item">Delete</a>-->
+
+                            </div>
+
+                        </li>
+                      <!--  <li class="list-inline-item" data-toggle="tooltip" title="Voice call">
+                            <a href="#" class="btn btn-outline-light text-success" data-toggle="modal"
+                               data-target="#call">
+                                <i data-feather="phone"></i>
+                            </a>
+                        </li>-->
+                      <!--  <li class="list-inline-item" data-toggle="tooltip" title="Video call">
+                            <a href="#" class="btn btn-outline-light text-warning" data-toggle="modal"
+                               data-target="#videoCall">
+                                <i data-feather="video"></i>
+                            </a>
+                        </li>-->
+                        <li class="list-inline-item">
+                            <a href="#" class="btn btn-outline-light" data-toggle="dropdown">
+                                <i data-feather="more-horizontal"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a href="#" data-navigation-target="contact-information"
+                                   class="dropdown-item">Profile</a>
+                                <!--<a href="#" class="dropdown-item">Add to archive</a>
+                                <a href="#" class="dropdown-item">Delete</a>-->
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item text-danger">Block</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <style>
+            .chat-header{
+              border-color: transparent;
+              border-bottom-color:transparent !important;
+            }
+            .chat-footer{
+                border-top-color:transparent !important;
+            }
+            .message-item{
+              opacity:0.5;
+            }
+            </style>
+            <div class="chat-body" style="overflow-y:scroll !important;">
+
+ <!-- .no-message -->
+                <!--
+                <div class="no-message-container">
+                    <div class="row mb-5">
+                        <div class="col-md-4 offset-4">
+                            <img src="./dist/media/svg/undraw_empty_xct9.svg" class="img-fluid" alt="image">
+                        </div>
+                    </div>
+                    <p class="lead">Select a chat to read messages</p>
+                </div>
+                -->
+                <div class="messages">
+<!--
+                    <div class="message-item outgoing-message">
+                        <div class="message-avatar">
+                            <figure class="avatar">
+                                <img src="{%static 'assets/women_avatar5.jpg'%}" class="rounded-circle" alt="image">
+                            </figure>
+                            <div>
+                                <h5>Mirabelle Tow</h5>
+                                <div class="time">05:31 PM <i class="fa fa-check-circle"></i></div>
+                            </div>
+                        </div>
+                        <div class="message-content">
+                            I'm fine thank you. I expect you to send me some files.
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-avatar">
+                            <figure class="avatar">
+                                <img src="{%static 'assets/man_avatar3.jpg'%}" class="rounded-circle" alt="image">
+                            </figure>
+                            <div>
+                                <h5>Byrom Guittet</h5>
+                                <div class="time">10:12 PM</div>
+                            </div>
+                        </div>
+                        <div class="message-content">
+                            What files are you talking about? I'm sorry I can't remember right now.
+                        </div>
+                    </div>
+                    <div class="message-item outgoing-message">
+                        <div class="message-avatar">
+                            <figure class="avatar">
+                                <img src="{%static 'assets/women_avatar5.jpg'%}" class="rounded-circle" alt="image">
+                            </figure>
+                            <div>
+                                <h5>Mirabelle Tow</h5>
+                                <div class="time">11:56 PM <i class="fa fa-check-circle"></i></div>
+                            </div>
+                        </div>
+                        <div class="message-content">
+                            I want those files for you. I want you to send 1 PDF and 1 image file.
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-avatar">
+                            <figure class="avatar">
+                                <img src="{%static 'assets/man_avatar3.jpg'%}" class="rounded-circle" alt="image">
+                            </figure>
+                            <div>
+                                <h5>Byrom Guittet</h5>
+                                <div class="time">11:59 PM</div>
+                            </div>
+                        </div>
+                        <div class="message-content message-file">
+                            <div class="file-icon">
+                                <i class="fa fa-file-pdf-o"></i>
+                            </div>
+                            <div>
+                                <div>important_documents.pdf <i class="fa fa-check-circle"></i></div>
+                                <ul class="list-inline">
+                                    <li class="list-inline-item mb-0"><a href="#">Download</a></li>
+                                    <li class="list-inline-item mb-0"><a href="#">View</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="message-item messages-divider sticky-top" data-label="Today"></div>
+                    <div class="message-item">
+                        <div class="message-avatar">
+                            <figure class="avatar">
+                                <img src="{%static 'assets/man_avatar3.jpg'%}" class="rounded-circle" alt="image">
+                            </figure>
+                            <div>
+                                <h5>Byrom Guittet</h5>
+                                <div class="time">07:15 AM</div>
+                            </div>
+                        </div>
+                        <div class="message-content">
+                            I'm about to send the other file now.
+                        </div>
+                    </div>
+                    <div class="message-item outgoing-message">
+                        <div class="message-avatar">
+                            <figure class="avatar">
+                                <img src="{%static 'assets/women_avatar5.jpg'%}" class="rounded-circle" alt="image">
+                            </figure>
+                            <div>
+                                <h5>Mirabelle Tow</h5>
+                                <div class="time">07:45 AM <i class="fa fa-check-circle"></i></div>
+                            </div>
+                        </div>
+                        <div class="message-content">
+                            Thank you so much. These files are very important to me. I guess you didn't make any changes
+                            to these files. So I need the original versions of these files. Thank you very much again.
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-avatar">
+                            <figure class="avatar">
+                                <img src="{%static 'assets/man_avatar3.jpg'%}" class="rounded-circle" alt="image">
+                            </figure>
+                            <div>
+                                <h5>Byrom Guittet</h5>
+                                <div class="time">08:00 AM</div>
+                            </div>
+                        </div>
+                        <div class="message-content">
+                            I thank you. We are glad to help you.
+                        </div>
+                    </div>
+                    <div class="message-item outgoing-message">
+                        <div class="message-avatar">
+                            <figure class="avatar">
+                                <img src="{%static 'assets/women_avatar5.jpg'%}" class="rounded-circle" alt="image">
+                            </figure>
+                            <div>
+                                <h5>Mirabelle Tow</h5>
+                                <div class="time">09:23 AM <i class="fa fa-check-circle"></i></div>
+                            </div>
+                        </div>
+                        <div class="message-content">
+                            this is a test message
+                        </div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-avatar">
+                            <figure class="avatar">
+                                <img src="{%static 'assets/man_avatar3.jpg'%}" class="rounded-circle" alt="image">
+                            </figure>
+                            <div>
+                                <h5>Byrom Guittet</h5>
+                                <div class="time">10:43 AM</div>
+                            </div>
+                        </div>
+                        <figure>
+                            <img src="{%static 'assets/image1.jpg'%}" class="w-25 img-fluid rounded" alt="image">
+                        </figure>
+                    </div>
+                    <div class="message-item outgoing-message">
+                        <div class="message-avatar">
+                            <figure class="avatar">
+                                <img src="{%static 'assets/women_avatar5.jpg'%}" class="rounded-circle" alt="image">
+                            </figure>
+                            <div>
+                                <h5>Mirabelle Tow</h5>
+                                <div class="time">10:50 AM <i class="fa fa-check-circle"></i></div>
+                            </div>
+                        </div>
+                        <div class="message-content">
+                            You are good !!
+                        </div>
+                    </div>
+                    <div class="message-item messages-divider" data-label="1 message unread"></div>
+-->
+
+                </div>
+            </div>
+            <div class="chat-footer">
+              <form>
+                    <div class="mt-5" style="margin-top:40px;">
+                        <button class="btn btn-light mr-3" id="smiley" data-toggle="tooltip" title="Emoji" type="button">
+                            <i data-feather="smile"></i>
+                        </button>
+                    </div>
+                    <input type="text" class="form-control mt-5" style="margin-top:40px;" id="chat-message-input" autocomplete="off" placeholder="Write a message.">
+                    <div class="form-buttons">
+                        <!--<button class="btn btn-light" class="mt-5" data-toggle="tooltip" title="Add files" type="button">
+                            <i data-feather="paperclip"></i>-->
+                        <!--</button>-->
+                        <button class="btn btn-light d-sm-none d-block mt-5"  style="margin-top:40px;" data-toggle="tooltip"
+                                title="Send a voice record" type="button">
+                            <i data-feather="mic"></i>
+                        </button>
+                        <button id="chat-message-submit" style="margin-top:40px;" class="btn btn-primary mt-5" type="submit">
+                            <i data-feather="send"></i>
+                        </button>
+
+                    </div>
+                  </form>
+            </div>
+            <button class="btn btn-light" class="mt-5" id="hide-message-input" data-toggle="tooltip" title="Add files" type="button">
+                <i class="fa fa-sort-up"></i></button>
+        </div>
+        <!-- ./ chat -->
+
+        <div class="sidebar-group">
+          <div id="contact-information" class="sidebar">
+              <header>
+                  <span>Profile</span>
+                  <ul class="list-inline">
+                      <li class="list-inline-item">
+                          <a href="#" class="btn btn-outline-light text-danger sidebar-close">
+                              <i data-feather="x"></i>
+                          </a>
+                      </li>
+                  </ul>
+              </header>
+              <div class="sidebar-body">
+                  <div class="pl-4 pr-4">
+                      <div class="text-center">
+                          <figure class="avatar avatar-xl mb-4">
+                              <img src="{%static friend_profile.avatar%}" class="rounded-circle" alt="image">
+                          </figure>
+                          <h5 class="mb-1">{{friend_profile.profile_id}}</h5>
+
+                          <ul class="nav nav-tabs justify-content-center mt-5" id="myTab" role="tablist">
+                              <li class="nav-item">
+                                  <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                     aria-controls="home" aria-selected="true">About</a>
+                              </li>
+
+                          </ul>
+                      </div>
+                      <div class="tab-content" id="myTabContent">
+                          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                              <h6><u>Motto</u></h6>
+                              <p class="text-muted">
+                                {{friend_profile.personal_motto}}</p>
+                              <div class="mt-4 mb-4">
+                                  <h6><u>Phone</u></h6>
+                                  <p class="text-muted">{{friend_profile.phone}}</p>
+                              </div>
+
+
+                              <div class="mt-4 mb-4">
+                                  <h6 class="mb-3"><u>Social media accounts</u></h6>
+                                  <ul class="list-inline social-links">
+                                      <li class="list-inline-item">
+                                          <a href="#" class="btn btn-sm btn-floating btn-facebook"
+                                             data-toggle="tooltip" title="Facebook">
+                                              <i class="fa fa-facebook mt-2"></i>
+
+                                          </a>
+                                      </li>
+                                      <li class="list-inline-item">
+                                          <a href="#" class="btn btn-sm btn-floating btn-twitter"
+                                             data-toggle="tooltip" title="Twitter">
+                                              <i class="fa fa-twitter mt-2"></i>
+                                          </a>
+                                      </li>
+
+                                      <li class="list-inline-item">
+                                          <a href="#" class="btn btn-sm btn-floating btn-linkedin"
+                                             data-toggle="tooltip" title="Linkedin">
+                                              <i class="fa fa-linkedin mt-2"></i>
+                                          </a>
+                                      </li>
+
+                                      <li class="list-inline-item">
+                                          <a href="#" class="btn btn-sm btn-floating btn-instagram"
+                                             data-toggle="tooltip" title="Instagram">
+                                              <i class="fa fa-instagram mt-2"></i>
+                                          </a>
+                                      </li>
+                                      <li class="list-inline-item">
+                                          <a href="#" class="btn btn-sm btn-floating btn-instagram"
+                                             data-toggle="tooltip" title="youtube">
+                                              <i class="fa fa-youtube mt-2"></i>
+                                          </a>
+                                      </li>
+                                  </ul>
+                              </div>
+
+                          </div>
+                          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                              <h6 class="mb-3 d-flex align-items-center justify-content-between">
+                                  <span>Recent Files</span>
+                                  <a href="#" class="btn btn-link small">
+                                      <i data-feather="upload" class="mr-2"></i> Upload
+                                  </a>
+                              </h6>
+                              <div>
+                                  <ul class="list-group list-group-flush">
+                                      <li class="list-group-item pl-0 pr-0 d-flex align-items-center">
+                                          <a href="#">
+                                              <i class="fa fa-file-pdf-o text-danger mr-2"></i> report4221.pdf
+                                          </a>
+                                      </li>
+                                      <li class="list-group-item pl-0 pr-0 d-flex align-items-center">
+                                          <a href="#">
+                                              <i class="fa fa-image text-muted mr-2"></i> avatar_image.png
+                                          </a>
+                                      </li>
+                                      <li class="list-group-item pl-0 pr-0 d-flex align-items-center">
+                                          <a href="#">
+                                              <i class="fa fa-file-excel-o text-success mr-2"></i>
+                                              excel_report_file2020.xlsx
+                                          </a>
+                                      </li>
+                                      <li class="list-group-item pl-0 pr-0 d-flex align-items-center">
+                                          <a href="#">
+                                              <i class="fa fa-file-text-o text-warning mr-2"></i> articles342133.txt
+                                          </a>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div id="personal-information" class="sidebar">
+              <header>
+                  <span>Profile</span>
+                  <ul class="list-inline">
+                      <li class="list-inline-item">
+                          <a href="#" class="btn btn-outline-light text-danger sidebar-close">
+                              <i data-feather="x"></i>
+                          </a>
+                      </li>
+                  </ul>
+              </header>
+              <div class="sidebar-body">
+                  <div class="pl-4 pr-4">
+                      <div class="text-center">
+                          <figure class="avatar avatar-xl mb-4">
+                              <img src="{%static pro.avatar%}" class="rounded-circle" alt="image">
+                          </figure>
+                          <h5 class="mb-1">{{usern}}</h5>
+
+                          <ul class="nav nav-tabs justify-content-center mt-5" id="myTab" role="tablist">
+                              <li class="nav-item">
+                                  <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
+                                     aria-controls="home" aria-selected="true">About</a>
+                              </li>
+
+                          </ul>
+                      </div>
+                      <div class="tab-content" id="myTabContent">
+                          <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                              <h6><u>motto</u></h6>
+                              <p class="text-muted">{{pro.personal_motto}}</p>
+                              <div class="mt-4 mb-4">
+                                  <h6><u>Phone</u></h6>
+                                  <p class="text-muted">{{pro.phone}}</p>
+                              </div>
+
+
+                              <div class="mt-4 mb-4">
+                                  <h6 class="mb-3"><u>Social media accounts</u></h6>
+                                  <ul class="list-inline social-links">
+                                      <li class="list-inline-item">
+                                          <a href="#" class="btn btn-sm btn-floating btn-facebook"
+                                             data-toggle="tooltip" title="Facebook">
+                                              <i class="fa fa-facebook mt-2"></i>
+
+                                          </a>
+                                      </li>
+                                      <li class="list-inline-item">
+                                          <a href="#" class="btn btn-sm btn-floating btn-twitter"
+                                             data-toggle="tooltip" title="Twitter">
+                                              <i class="fa fa-twitter mt-2"></i>
+                                          </a>
+                                      </li>
+
+
+                                      <li class="list-inline-item">
+                                          <a href="#" class="btn btn-sm btn-floating btn-linkedin"
+                                             data-toggle="tooltip" title="Linkedin">
+                                              <i class="fa fa-linkedin mt-2"></i>
+                                          </a>
+                                      </li>
+
+
+                                      <li class="list-inline-item">
+                                          <a href="#" class="btn btn-sm btn-floating btn-instagram"
+                                             data-toggle="tooltip" title="Instagram">
+                                              <i class="fa fa-instagram mt-2"></i>
+                                          </a>
+                                      </li>
+                                      <li class="list-inline-item">
+                                          <a href="#" class="btn btn-sm btn-floating btn-instagram"
+                                             data-toggle="tooltip" title="youtube">
+                                              <i class="fa fa-youtube mt-2"></i>
+                                          </a>
+                                      </li>
+                                  </ul>
+                              </div>
+                              <!--<div class="mt-4 mb-4">
+                                  <h6 class="mb-3">Settings</h6>
+                                  <div class="form-group">
+                                      <div class="form-item custom-control custom-switch">
+                                          <input type="checkbox" class="custom-control-input" id="customSwitch11">
+                                          <label class="custom-control-label" for="customSwitch11">Block</label>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <div class="form-item custom-control custom-switch">
+                                          <input type="checkbox" class="custom-control-input" checked=""
+                                                 id="customSwitch12">
+                                          <label class="custom-control-label" for="customSwitch12">Mute</label>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <div class="form-item custom-control custom-switch">
+                                          <input type="checkbox" class="custom-control-input" id="customSwitch13">
+                                          <label class="custom-control-label" for="customSwitch13">Get
+                                              notification</label>
+                                      </div>
+                                  </div>
+                              </div>-->
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+        </div>
+
+    </div>
+    <!-- ./ content -->
+
+</div>
+<!-- ./ layout -->
+<!-- Bundle -->
+<script src="{%static 'assets/bundle.js'%}"></script>
+
+<script src="{%static 'assets/enjoyhint.min.js'%}"></script>
+
+<!-- App scripts -->
+<script src="{%static 'assets/app.min.js'%}"></script>
+
+<!-- Examples -->
+<script src="{%static 'assets/examples.js'%}"></script>
+{{ room_name|json_script:"room-name" }}
+<script src="{%static 'js/reconnecting-websocket.js'%}"></script>
+<script type="text/javascript">
+
+const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+const chatSocket = new ReconnectingWebSocket(
+    'ws://'
+    + window.location.host
+    + '/ws/chat/'
+    + roomName
+    +'/'
+);
+
+$(".messages").animate({ scrollTop: $(document).height() }, "fast");
+function newMessage(message) {
+
+  if($.trim(message) == '') {
+    return false;
+  }
+
+  $('.message-input input').val(null);
+  $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+  chatSocket.send(JSON.stringify({
+      'message': message,
+      'command':'new_messages',
+      'from':{{username}},
+      'to':{{receiver}}
+  }));
+
+};
+var jsonObject = JSON.parse('{{ json_string | escapejs }}');
+
+function displayTime(mins,messageDate){
+  console.log('minutes:'+mins)
+  if (mins<=0){return 'just now';}
+  if(mins>0&&mins<=59){return (Math.round(mins)+' minutes ago')}
+  if(mins>60&&mins<=1439){return(Math.round(mins/60)+'hours ago')}
+  if(mins>1440&&mins<=2879){return ('yesterday')}
+  if(mins>2880&&mins<=525599){return (messageDate.getDate()+''+messageDate.getMonth())}
+  if(mins>525600){return (messageDate.getDate()+''+messageDate.getMonth()+''+messageDate.getYear())}
+}
+
+function showTime(){
+  return new Date();
+}
+
+function newMsg(message,i,ss){
+var realDate = showTime();
+ if($.trim(message) == '') {
+   return false;
+ }
+//<small>{Math.round(new Date().getTime() - new Date(message.[0]['time_stamp']))} minutes ago</small>
+
+ if(ss==='message'){
+   var messageDate = new Date(message[0]['time_stamp'])
+   if(message[0]['author']=={{username}}){
+     console.log('neww: '+message[0]['content']);
+     $('.list-group-item.open-chat .user-list-body').html('<span>You: </span>' + message[0]['content']);
+     $('<div class="message-item outgoing-message md-4"><div class="message-avatar"><figure class="avatar"><img src="{%static pro.avatar%}"  class="rounded-circle" alt="image"></figure><div><h5>'+{{username}}+'</h5><div class="time"><small>'+ displayTime(Math.round(realDate.getTime() / 60000 - messageDate.getTime()/60000),messageDate) +'</small><div><i id="seenmarker" class=""></i></div></div></div></div><div class="message-content">'
+              +message[0]['content']+'</div></div>').appendTo($('.messages '));
+      $('.list-group-item.open-chat .user-list-body').html('<span>You: </span>' + message[0]['content']);
+      $('#last-message').html('<span>You: </span>' + message[0]['content']);
+     $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+   }
+   else{
+     console.log('neww: '+message[0]['content']);
+     console.log(message[0]['author'],'kkkkkkkkkkkkkkkkkkkkkkkkkk');
+     console.log({{username}})
+     $('.list-group-item.open-chat .user-list-body').html('<span>You: </span>' + message[0]['content']);
+     $('<div class="message-item md-4"><div class="message-avatar"><figure class="avatar"><img src="{%static friend_profile.avatar %}"  class="rounded-circle" alt="image"></figure> <div><h5>'+message[0]['author']+'</h5><div class="time"><small>'+ displayTime(Math.round(realDate.getTime() / 60000 - messageDate.getTime()/60000),messageDate) +'</small><div><i id="seenmarker" class=""></i></div></div></div></div><div class="message-content">'
+              +message[0]['content']+'</div></div>').appendTo($('.messages '));
+      $('#last-message').html('<span>  </span>' + message[0]['content']);
+     $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+   }
+
+ }
+ else{
+   var messageDate = new Date(message['messages'][i]['time_stamp'])
+   console.log(message['messages'][i]['author']);
+   console.log({{username}})
+   if(message['messages'][i]['author']=={{username}}){
+     console.log('fetched:'+message['messages'][i]['content']);
+     $('.list-group-item.open-chat .user-list-body').html('<span>You: </span>' + message['messages'][i]['content']);
+     $('<div class="message-item outgoing-message md-4"><div class="message-avatar"><figure class="avatar"><img src="{%static pro.avatar %}"  class="rounded-circle" alt="image"></figure><div><h5>'+{{username}}+'</h5><div class="time"><small>'+ displayTime(Math.round(realDate.getTime() / 60000 - messageDate.getTime()/60000),messageDate) +'</small><div><i id="seenmarker" class="fa fa-check"></i></div></div></div></div><div class="message-content">'
+              +message['messages'][i]['content']+'</div></div>').appendTo($('.messages '));
+      $('#last-message').html('<span>You: </span>' + message['messages'][i]['content']);
+     $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+     $('.message-content').css('color','white');
+     $('.message-content').css('text-shadow','0 0 20px white');
+   }
+   else{
+     console.log(message['messages'][i]['content']);
+     console.log(message['messages'][i]['author'],'kkkkkkkkkkkkkkkkkkkkkkkkkk');
+     console.log({{username}})
+     $('.list-group-item.open-chat .user-list-body').html('<span>You: </span>' + message['messages'][i]['content']);
+     $('<div class="message-item md-4"><div class="message-avatar"><figure class="avatar"><img src="{%static friend_profile.avatar %}"  class="rounded-circle" alt="image"></figure><div><h5>'+message['messages'][i]['author']+'</h5><div class="time"><small>'+ displayTime(Math.round(realDate.getTime() / 60000 - messageDate.getTime()/60000),messageDate) +'</small><div><i id="seenmarker" class="fa fa-check"></i></div></div></div></div><div class="message-content" >'
+              +message['messages'][i]['content']+'</div></div>').appendTo($('.messages '));
+      $('#last-message').html('<span>  </span>' + message['messages'][i]['content']);
+     $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+     $('.message-content').css('color','white');
+     $('.message-content').css('text-shadow','0 0 20px white');
+   }
+ }
+}
+function dummy(){
+
+}
+chatSocket.onmessage = function(e) {
+   const data = JSON.parse(e.data);
+   if(data[0]=='writing...' && data[1]!={{username}} ){
+     if(!{{is_friend}}){
+      $('.text-status-success').html('<i style="color:green;">'+data[1]+' is writing...</i>');
+      setTimeout(() => {  $('.text-status-success').html('<i style="color:green;"></i>'); }, 1000);
+      }
+      else{
+        $('.text-status-success').html('<i style="color:green;"> is writing...</i>');
+        setTimeout(() => {  $('.text-status-success').html('<i style="color:green;"></i>'); }, 1000);
+      }
+    }
+    if(data[0]=='OFF'){
+      console.log(data[1]+'....'+data[0]);
+      offliner_id = '#'+data[1]+'-status';
+      $(offliner_id).attr('class','avatar avatar-state-warning');
+    }
+    if(data[0]=='ON'){
+      console.log(data[1]+'......'+data[0]);
+      onliner_id = '#'+data[1]+'-status';
+      $(onliner_id).attr('class','avatar avatar-state-success');
+    }
+    if(data[0]=='seen'){
+      if(data[1]=={{receiver}}){
+        $('[id="seenmarker"]').attr('class','fa fa-check');
+      console.log('seen the message|||||||||||||||||||||||');
+      console.log('seeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeen '+$('#seenmarker').attr('class'));
+       }
+    }
+    if(data[0]=='play'){
+      console.log(data[2]+'trtrtrtrtrtrtrtrtrtr');
+      $('.myVideo').css('z-index','-2');
+      $(".myVideo").each(function() {
+        var clicker = '#'+$(this).attr('id');
+        console.log(clicker+'is paused');
+        $(clicker).trigger('pause');
+      });
+      var clicked_id = '#'+data[2]
+      $(clicked_id).css('z-index','-1');
+      document.getElementById(data[2]).play();
+    }
+    if(data[0]=='stop'){
+      console.log(data+'trtrtrtrtrtrtrtrtrtr');
+      $('.myVideo').css('z-index','-2');
+      $(".myVideo").each(function() {
+        var clicker = '#'+$(this).attr('id');
+        console.log(clicker+'is paused');
+        $(clicker).trigger('pause');
+      });
+      var clicked_id = '#'+data[2]
+      $(clicked_id).css('z-index','-1');
+      document.getElementById(data[2]).pause();
+    }
+    if(data[0]=='repeat'){
+      console.log(data+'trtrtrtrtrtrtrtrtrtr');
+      $('.myVideo').css('z-index','-2');
+      $(".myVideo").each(function() {
+        var clicker = '#'+$(this).attr('id');
+        console.log(clicker+'is paused');
+        $(clicker).trigger('pause');
+      });
+      var clicked_id = '#'+data[2]
+      $(clicked_id).css('z-index','-1');
+      document.getElementById(data[2]).load();
+      document.getElementById(data[2]).play();
+    }
+    else{
+
+      console.log('its offffffffffffffff')
+    }
+   //
+   //document.querySelector('#chat-log').value += (data.message + '\n');
+   if(data['command']==='new_messages'){
+     console.log('dataN: '+data['message'])
+     newMsg(data.message,0,'message');
+   //alert(data['command']);
+   }
+   if(data['command']==='messages'){
+     console.log('data: '+data['messages'][0]['content'])
+     for (let i=data['messages'].length-1;i>=0;i--){
+       newMsg(data,i,'messages');
+     }
+   }
+
+   //newMsg(data.message,0,'message');
+};
+
+function opener(){
+  console.log('opening!!')
+  chatSocket.send(JSON.stringify({
+    'command': 'offline_switch',
+    'status':'ON',
+    'source':{{username}},
+  }));
+}
+
+chatSocket.onopen = function(e) {
+ chatSocket.send(JSON.stringify({
+     'command': 'fetch_messages',
+     'from':{{username}},
+     'to':{{receiver}},
+     'status':'online'
+ }));
+ opener();
+};
+function closer(){
+  console.log('closing!!')
+  chatSocket.send(JSON.stringify({
+    'command': 'offline_switch',
+    'status':'OFF',
+    'source':{{username}},
+  }));
+}
+
+chatSocket.onclose = function(e) {
+   closer();
+   console.error('Chat socket closed unexpectedly');
+};
+
+document.querySelector('.chat-body').focus();
+$('.chat-body').scrollTop($('.chat-body')[0].scrollHeight - $('.chat-body')[0].clientHeight);
+document.querySelector('#chat-message-input').onkeyup = function(e) {
+   if (e.keyCode === 13) {  // enter, return
+       document.querySelector('#chat-message-submit').click();
+   }
+   else if(e.keyCode != 8){
+     chatSocket.send(JSON.stringify({
+         'command': 'writing-status',
+         'state':'writing',
+         'source':{{username}}
+     }));
+   }
+};
+
+$( "#chat-message-submit" ).on( "click", function(e) {
+  e.preventDefault();
+   message = $(".chat-footer input").val();
+ newMessage(message);
+ $(".chat-footer input").val('');
+});
+
+function myFunction() {
+  alert('dsadasdasd');
+}
+$( "#contact_click" ).click(function() {
+  if($( "#contact_input").val()!=''){
+      $( "#contact_form").submit();
+  }
+});
+
+$(document).ready(function() {
+  $('.chat-body').css('overflow-y','scroll');
+  $('#video_001-play,#video_002-play').click(function(){
+    console.log('video play clicked');
+    $('.myVideo').css('z-index','-2');
+    $(".myVideo").each(function() {
+      var clicker = '#'+$(this).attr('id');
+      console.log(clicker+'is paused');
+      $(clicker).trigger('pause');
+    });
+    var clicked_id = '#'+$(this).attr('class')
+    $(clicked_id).css('z-index','-1');
+    chatSocket.send(JSON.stringify({
+      'command': 'video-control',
+      'status':'play',
+      'source':{{username}},
+      'video':$(this).attr('id')
+    }));
+  });
+  $('#video_001-stop,#video_002-stop').click(function(){
+
+    console.log('video play clicked');
+    $('.myVideo').css('z-index','-2');
+    $(".myVideo").each(function() {
+      var clicker = '#'+$(this).attr('id');
+      console.log(clicker+'is paused');
+      $(clicker).trigger('pause');
+    });
+    var clicked_id = '#'+$(this).attr('class')
+    $(clicked_id).css('z-index','-1');
+    chatSocket.send(JSON.stringify({
+      'command': 'video-control',
+      'status':'stop',
+      'source':{{username}},
+      'video':$(this).attr('id')
+    }));
+  });
+  $('#video_001-repeat,#video_002-repeat').click(function(){
+    console.log('video play clicked');
+    $('.myVideo').css('z-index','-2');
+    $(".myVideo").each(function() {
+      var clicker = '#'+$(this).attr('id');
+      console.log(clicker+'is paused');
+      $(clicker).trigger('pause');
+    });
+    var clicked_id = '#'+$(this).attr('class')
+    $(clicked_id).css('z-index','-1');
+    chatSocket.send(JSON.stringify({
+      'command': 'video-control',
+      'status':'repeat',
+      'source':{{username}},
+      'video':$(this).attr('id')
+    }));
+  });
+
+  $('.chat-footer').toggle();
+  $('#hide-message-input').click(function(){
+    $('.chat-footer').toggle(
+      function(){$(".chat-footer").css({"block": "none"});},
+    );
+  });
+  $("#chat-message-input").focusin(function(){
+    chatSocket.send(JSON.stringify({
+      'command': 'seen-signal',
+      'status':'seen',
+      'source':{{username}},
+    }));
+  });
+  const favorite = {};
+  const group_members = []
+  $("#validate").click(function(){
+    $.each($("input[name='group_member']:checked"), function(){
+        group_members.push($(this).val());
+    });
+    favorite['group_members'] = group_members;
+
+  });
+  $("#create-group").click(function(){
+  if($("#group_name").val()!=''&&$("#description").val()!=''){
+    favorite['group_name'] = $("#group_name").val();
+    favorite['description'] = $("#description").val();
+
+    chatSocket.send(JSON.stringify({
+        'command':'create_group',
+        'group_members': favorite
+    }));
+    $('#create-group').attr('class', 'close');
+    $('#create-group').attr('data-dismiss', 'modal');
+    $('#create-group').attr('aria-label', 'close');
+  }
+
+  })
+});
+$('#to_logout').click(function(){
+  closer();
+  console.log('dsdfsdfsdfdsfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf')
+});
+function SetVolume(val,vid_id)
+    {
+        var player = document.getElementById(vid_id);
+        console.log('Before: ' + player.volume);
+        player.volume = val / 100;
+        console.log('After: ' + player.volume);
+    }
+
+
+</script>
+</body>
+</html>

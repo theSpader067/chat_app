@@ -1,0 +1,363 @@
+<script type="text/javascript">
+
+const roomName = JSON.parse(document.getElementById('room-name').textContent);
+
+const chatSocket = new ReconnectingWebSocket(
+    'ws://'
+    + window.location.host
+    + '/ws/chat/'
+    + roomName
+    +'/'
+);
+
+$(".messages").animate({ scrollTop: $(document).height() }, "fast");
+function newMessage(message) {
+
+  if($.trim(message) == '') {
+    return false;
+  }
+
+  $('.message-input input').val(null);
+  $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+  chatSocket.send(JSON.stringify({
+      'message': message,
+      'command':'new_messages',
+      'from':{{username}},
+      'to':{{receiver}}
+  }));
+
+};
+var jsonObject = JSON.parse('{{ json_string | escapejs }}');
+
+function displayTime(mins,messageDate){
+  console.log('minutes:'+mins)
+  if (mins<=0){return 'just now';}
+  if(mins>0&&mins<=59){return (Math.round(mins)+' minutes ago')}
+  if(mins>60&&mins<=1439){return(Math.round(mins/60)+'hours ago')}
+  if(mins>1440&&mins<=2879){return ('yesterday')}
+  if(mins>2880&&mins<=525599){return (messageDate.getDate()+''+messageDate.getMonth())}
+  if(mins>525600){return (messageDate.getDate()+''+messageDate.getMonth()+''+messageDate.getYear())}
+}
+
+function showTime(){
+  return new Date();
+}
+
+function newMsg(message,i,ss){
+var realDate = showTime();
+ if($.trim(message) == '') {
+   return false;
+ }
+//<small>{Math.round(new Date().getTime() - new Date(message.[0]['time_stamp']))} minutes ago</small>
+
+ if(ss==='message'){
+   var messageDate = new Date(message[0]['time_stamp'])
+   if(message[0]['author']=={{username}}){
+     console.log('neww: '+message[0]['content']);
+     $('.list-group-item.open-chat .user-list-body').html('<span>You: </span>' + message[0]['content']);
+     $('<div class="message-item outgoing-message md-4"><div class="message-avatar"><figure class="avatar"><img src="{%static pro.avatar%}"  class="rounded-circle" alt="image"></figure><div><h5>'+{{username}}+'</h5><div class="time"><small>'+ displayTime(Math.round(realDate.getTime() / 60000 - messageDate.getTime()/60000),messageDate) +'</small><div><i id="seenmarker" class=""></i></div></div></div></div><div class="message-content">'
+              +message[0]['content']+'</div></div>').appendTo($('.messages '));
+      $('.list-group-item.open-chat .user-list-body').html('<span>You: </span>' + message[0]['content']);
+      $('#last-message').html('<span>You: </span>' + message[0]['content']);
+     $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+   }
+   else{
+     console.log('neww: '+message[0]['content']);
+     console.log(message[0]['author'],'kkkkkkkkkkkkkkkkkkkkkkkkkk');
+     console.log({{username}})
+     $('.list-group-item.open-chat .user-list-body').html('<span>You: </span>' + message[0]['content']);
+     $('<div class="message-item md-4"><div class="message-avatar"><figure class="avatar"><img src="{%static friend_profile.avatar %}"  class="rounded-circle" alt="image"></figure> <div><h5>'+message[0]['author']+'</h5><div class="time"><small>'+ displayTime(Math.round(realDate.getTime() / 60000 - messageDate.getTime()/60000),messageDate) +'</small><div><i id="seenmarker" class=""></i></div></div></div></div><div class="message-content">'
+              +message[0]['content']+'</div></div>').appendTo($('.messages '));
+      $('#last-message').html('<span>  </span>' + message[0]['content']);
+     $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+   }
+
+ }
+ else{
+   var messageDate = new Date(message['messages'][i]['time_stamp'])
+   console.log(message['messages'][i]['author']);
+   console.log({{username}})
+   if(message['messages'][i]['author']=={{username}}){
+     console.log('fetched:'+message['messages'][i]['content']);
+     $('.list-group-item.open-chat .user-list-body').html('<span>You: </span>' + message['messages'][i]['content']);
+     $('<div class="message-item outgoing-message md-4"><div class="message-avatar"><figure class="avatar"><img src="{%static pro.avatar %}"  class="rounded-circle" alt="image"></figure><div><h5>'+{{username}}+'</h5><div class="time"><small>'+ displayTime(Math.round(realDate.getTime() / 60000 - messageDate.getTime()/60000),messageDate) +'</small><div><i id="seenmarker" class="fa fa-check"></i></div></div></div></div><div class="message-content">'
+              +message['messages'][i]['content']+'</div></div>').appendTo($('.messages '));
+      $('#last-message').html('<span>You: </span>' + message['messages'][i]['content']);
+     $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+     $('.message-content').css('color','white');
+     $('.message-content').css('text-shadow','0 0 20px white');
+   }
+   else{
+     console.log(message['messages'][i]['content']);
+     console.log(message['messages'][i]['author'],'kkkkkkkkkkkkkkkkkkkkkkkkkk');
+     console.log({{username}})
+     $('.list-group-item.open-chat .user-list-body').html('<span>You: </span>' + message['messages'][i]['content']);
+     $('<div class="message-item md-4"><div class="message-avatar"><figure class="avatar"><img src="{%static friend_profile.avatar %}"  class="rounded-circle" alt="image"></figure><div><h5>'+message['messages'][i]['author']+'</h5><div class="time"><small>'+ displayTime(Math.round(realDate.getTime() / 60000 - messageDate.getTime()/60000),messageDate) +'</small><div><i id="seenmarker" class="fa fa-check"></i></div></div></div></div><div class="message-content" >'
+              +message['messages'][i]['content']+'</div></div>').appendTo($('.messages '));
+      $('#last-message').html('<span>  </span>' + message['messages'][i]['content']);
+     $(".messages").animate({ scrollTop: $(document).height() }, "fast");
+     $('.message-content').css('color','white');
+     $('.message-content').css('text-shadow','0 0 20px white');
+   }
+ }
+}
+function dummy(){
+
+}
+chatSocket.onmessage = function(e) {
+   const data = JSON.parse(e.data);
+   if(data[0]=='writing...' && data[1]!={{username}} ){
+     if(!{{is_friend}}){
+      $('.text-status-success').html('<i style="color:green;">'+data[1]+' is writing...</i>');
+      setTimeout(() => {  $('.text-status-success').html('<i style="color:green;"></i>'); }, 1000);
+      }
+      else{
+        $('.text-status-success').html('<i style="color:green;"> is writing...</i>');
+        setTimeout(() => {  $('.text-status-success').html('<i style="color:green;"></i>'); }, 1000);
+      }
+    }
+    if(data[0]=='OFF'){
+      console.log(data[1]+'....'+data[0]);
+      offliner_id = '#'+data[1]+'-status';
+      $(offliner_id).attr('class','avatar avatar-state-warning');
+    }
+    if(data[0]=='ON'){
+      console.log(data[1]+'......'+data[0]);
+      onliner_id = '#'+data[1]+'-status';
+      $(onliner_id).attr('class','avatar avatar-state-success');
+    }
+    if(data[0]=='seen'){
+      if(data[1]=={{receiver}}){
+        $('[id="seenmarker"]').attr('class','fa fa-check');
+      console.log('seen the message|||||||||||||||||||||||');
+      console.log('seeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeen '+$('#seenmarker').attr('class'));
+       }
+    }
+    if(data[0]=='play'){
+      console.log(data[2]+'trtrtrtrtrtrtrtrtrtr');
+      $('.myVideo').css('z-index','-2');
+      $(".myVideo").each(function() {
+        var clicker = '#'+$(this).attr('id');
+        console.log(clicker+'is paused');
+        $(clicker).trigger('pause');
+      });
+      var clicked_id = '#'+data[2]
+      $(clicked_id).css('z-index','-1');
+      document.getElementById(data[2]).play();
+    }
+    if(data[0]=='stop'){
+      console.log(data+'trtrtrtrtrtrtrtrtrtr');
+      $('.myVideo').css('z-index','-2');
+      $(".myVideo").each(function() {
+        var clicker = '#'+$(this).attr('id');
+        console.log(clicker+'is paused');
+        $(clicker).trigger('pause');
+      });
+      var clicked_id = '#'+data[2]
+      $(clicked_id).css('z-index','-1');
+      document.getElementById(data[2]).pause();
+    }
+    if(data[0]=='repeat'){
+      console.log(data+'trtrtrtrtrtrtrtrtrtr');
+      $('.myVideo').css('z-index','-2');
+      $(".myVideo").each(function() {
+        var clicker = '#'+$(this).attr('id');
+        console.log(clicker+'is paused');
+        $(clicker).trigger('pause');
+      });
+      var clicked_id = '#'+data[2]
+      $(clicked_id).css('z-index','-1');
+      document.getElementById(data[2]).load();
+      document.getElementById(data[2]).play();
+    }
+    else{
+
+      console.log('its offffffffffffffff')
+    }
+   //
+   //document.querySelector('#chat-log').value += (data.message + '\n');
+   if(data['command']==='new_messages'){
+     console.log('dataN: '+data['message'])
+     newMsg(data.message,0,'message');
+   //alert(data['command']);
+   }
+   if(data['command']==='messages'){
+     console.log('data: '+data['messages'][0]['content'])
+     for (let i=data['messages'].length-1;i>=0;i--){
+       newMsg(data,i,'messages');
+     }
+   }
+
+   //newMsg(data.message,0,'message');
+};
+
+function opener(){
+  console.log('opening!!')
+  chatSocket.send(JSON.stringify({
+    'command': 'offline_switch',
+    'status':'ON',
+    'source':{{username}},
+  }));
+}
+
+chatSocket.onopen = function(e) {
+ chatSocket.send(JSON.stringify({
+     'command': 'fetch_messages',
+     'from':{{username}},
+     'to':{{receiver}},
+     'status':'online'
+ }));
+ opener();
+};
+function closer(){
+  console.log('closing!!')
+  chatSocket.send(JSON.stringify({
+    'command': 'offline_switch',
+    'status':'OFF',
+    'source':{{username}},
+  }));
+}
+
+chatSocket.onclose = function(e) {
+   closer();
+   console.error('Chat socket closed unexpectedly');
+};
+
+document.querySelector('.chat-body').focus();
+$('.chat-body').scrollTop($('.chat-body')[0].scrollHeight - $('.chat-body')[0].clientHeight);
+document.querySelector('#chat-message-input').onkeyup = function(e) {
+   if (e.keyCode === 13) {  // enter, return
+       document.querySelector('#chat-message-submit').click();
+   }
+   else if(e.keyCode != 8){
+     chatSocket.send(JSON.stringify({
+         'command': 'writing-status',
+         'state':'writing',
+         'source':{{username}}
+     }));
+   }
+};
+
+$( "#chat-message-submit" ).on( "click", function(e) {
+  e.preventDefault();
+   message = $(".chat-footer input").val();
+ newMessage(message);
+ $(".chat-footer input").val('');
+});
+
+function myFunction() {
+  alert('dsadasdasd');
+}
+$( "#contact_click" ).click(function() {
+  if($( "#contact_input").val()!=''){
+      $( "#contact_form").submit();
+  }
+});
+
+$(document).ready(function() {
+  $('.chat-body').css('overflow-y','scroll');
+  $('#video_001-play,#video_002-play').click(function(){
+    console.log('video play clicked');
+    $('.myVideo').css('z-index','-2');
+    $(".myVideo").each(function() {
+      var clicker = '#'+$(this).attr('id');
+      console.log(clicker+'is paused');
+      $(clicker).trigger('pause');
+    });
+    var clicked_id = '#'+$(this).attr('class')
+    $(clicked_id).css('z-index','-1');
+    chatSocket.send(JSON.stringify({
+      'command': 'video-control',
+      'status':'play',
+      'source':{{username}},
+      'video':$(this).attr('id')
+    }));
+  });
+  $('#video_001-stop,#video_002-stop').click(function(){
+
+    console.log('video play clicked');
+    $('.myVideo').css('z-index','-2');
+    $(".myVideo").each(function() {
+      var clicker = '#'+$(this).attr('id');
+      console.log(clicker+'is paused');
+      $(clicker).trigger('pause');
+    });
+    var clicked_id = '#'+$(this).attr('class')
+    $(clicked_id).css('z-index','-1');
+    chatSocket.send(JSON.stringify({
+      'command': 'video-control',
+      'status':'stop',
+      'source':{{username}},
+      'video':$(this).attr('id')
+    }));
+  });
+  $('#video_001-repeat,#video_002-repeat').click(function(){
+    console.log('video play clicked');
+    $('.myVideo').css('z-index','-2');
+    $(".myVideo").each(function() {
+      var clicker = '#'+$(this).attr('id');
+      console.log(clicker+'is paused');
+      $(clicker).trigger('pause');
+    });
+    var clicked_id = '#'+$(this).attr('class')
+    $(clicked_id).css('z-index','-1');
+    chatSocket.send(JSON.stringify({
+      'command': 'video-control',
+      'status':'repeat',
+      'source':{{username}},
+      'video':$(this).attr('id')
+    }));
+  });
+
+  $('.chat-footer').toggle();
+  $('#hide-message-input').click(function(){
+    $('.chat-footer').toggle(
+      function(){$(".chat-footer").css({"block": "none"});},
+    );
+  });
+  $("#chat-message-input").focusin(function(){
+    chatSocket.send(JSON.stringify({
+      'command': 'seen-signal',
+      'status':'seen',
+      'source':{{username}},
+    }));
+  });
+  const favorite = {};
+  const group_members = []
+  $("#validate").click(function(){
+    $.each($("input[name='group_member']:checked"), function(){
+        group_members.push($(this).val());
+    });
+    favorite['group_members'] = group_members;
+
+  });
+  $("#create-group").click(function(){
+  if($("#group_name").val()!=''&&$("#description").val()!=''){
+    favorite['group_name'] = $("#group_name").val();
+    favorite['description'] = $("#description").val();
+
+    chatSocket.send(JSON.stringify({
+        'command':'create_group',
+        'group_members': favorite
+    }));
+    $('#create-group').attr('class', 'close');
+    $('#create-group').attr('data-dismiss', 'modal');
+    $('#create-group').attr('aria-label', 'close');
+  }
+
+  })
+});
+$('#to_logout').click(function(){
+  closer();
+  console.log('dsdfsdfsdfdsfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdf')
+});
+function SetVolume(val,vid_id)
+    {
+        var player = document.getElementById(vid_id);
+        console.log('Before: ' + player.volume);
+        player.volume = val / 100;
+        console.log('After: ' + player.volume);
+    }
+
+
+</script>
